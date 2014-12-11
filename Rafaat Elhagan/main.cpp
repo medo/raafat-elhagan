@@ -139,8 +139,38 @@ void mouse_motion(int x, int y) {
     }
 }
 
+GLint gFramesPerSecond = 0;
+
+void FPS(void) {
+    static GLint Frames = 0;         // frames averaged over 1000mS
+    static GLuint Clock;             // [milliSeconds]
+    static GLuint PreviousClock = 0; // [milliSeconds]
+    static GLuint NextClock = 0;     // [milliSeconds]
+   
+    ++Frames;
+    Clock = glutGet(GLUT_ELAPSED_TIME); //has limited resolution, so average over 1000mS
+    if ( Clock < NextClock ) return;
+   
+    gFramesPerSecond = Frames/1; // store the averaged number of frames per second
+   
+    PreviousClock = Clock;
+    NextClock = Clock+1000; // 1000mS=1S in the future
+    Frames=0;
+}
+
 void loop() {
-    
+
+    #define REGULATE_FPS
+    #ifdef REGULATE_FPS
+    static GLuint PreviousClock=glutGet(GLUT_ELAPSED_TIME);
+    static GLuint Clock=glutGet(GLUT_ELAPSED_TIME);
+    static GLfloat deltaT;
+   
+    Clock = glutGet(GLUT_ELAPSED_TIME);
+    deltaT=Clock-PreviousClock;
+    if (deltaT < 15) {return;} else {PreviousClock=Clock;}
+    #endif
+    FPS();
     glutPostRedisplay();
 }
 
