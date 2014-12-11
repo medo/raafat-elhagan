@@ -9,7 +9,13 @@
 #include "Person.h"
 #include <math.h>
 #include "Util.h"
+#ifdef __APPLE__
 #include <GLUT/GLUT.h>
+#endif
+
+#ifdef __linux__
+#include <GL/glut.h>
+#endif
 #include <iostream>
 #include "Map.h"
 
