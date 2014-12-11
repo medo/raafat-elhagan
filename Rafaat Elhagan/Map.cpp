@@ -39,6 +39,10 @@ bool Map::intersects(Point p) {
     
 }
 
+void Map::add_obstacle(Obstacle *obstacle) {
+    this->obstacles.push_back(obstacle);
+}
+
 void Map::init_map() {
     
     //room

@@ -53,12 +53,11 @@ void display() {
     move();
     Point looking_at = my_player->get_look_at();
     Point position = my_player->get_position();
-    other_player->draw();
+    
     gluLookAt(position.x, position.y, position.z, looking_at.x, looking_at.y, looking_at.z, 0, 1, 0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     map.draw();
-    glPopMatrix();
     glFlush();
 
 }
@@ -197,6 +196,7 @@ int main(int argc, char ** argv) {
     glClearColor(1.0, 1.0, 1.0, 0.0);
     my_player = new Person(Point(0, 10, 0), 10, 0.1, 2, &map);
     other_player = new Person(Point(0, 10, 0), 10, 0.1, 2, &map);
+    map.add_obstacle(other_player);
 //    max_jump = 2.0;
     mouse_sensitivity = 5;
     //set the light source properties

@@ -17,7 +17,7 @@ class Person : public Obstacle {
     
 private:
     
-    double horizontal_angle, vertical_angle, look_depth, motion_speed, height;
+    double horizontal_angle, vertical_angle, look_depth, motion_speed, height, width, length;
     Point pos;
     Map *map;
     

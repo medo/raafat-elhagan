@@ -26,6 +26,8 @@ Person::Person(Point pos, double look_depth, double motion_speed, double height,
     this->motion_speed = motion_speed;
     this->height = height;
     this->map = map;
+    this->length = 1;
+    this->width = 1;
 }
 
 double Person::set_horizontal_angle(double angle) {
@@ -88,10 +90,10 @@ double Person::get_height() {
 }
 
 void Person::draw() {
-    cout << pos.x << "\n";
+    
     glPushMatrix();
-    glScaled(2, 2, 5);
-    glTranslated(pos.x , pos.y, pos.z);
+    glScaled(width, height, length);
+    glTranslated(pos.x / width , pos.y / height, pos.z / length);
     glutSolidCube(1);
     glPopMatrix();
 }
