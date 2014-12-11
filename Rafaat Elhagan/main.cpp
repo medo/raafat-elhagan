@@ -135,7 +135,10 @@ void mouse_motion(int x, int y) {
     double prev_horizontal = my_player->get_horizontal_angle();
 
     prev_vertical += -(y - window_height / 2.0) / mouse_sensitivity;
+    prev_vertical = min(prev_vertical, 90.0);
+    prev_vertical = max(prev_vertical, -90.0);
     prev_horizontal += -(x - window_width / 2.0) / mouse_sensitivity;
+
     my_player->set_vertical_angle(prev_vertical);
     my_player->set_horizontal_angle(prev_horizontal);
     if( fabs(x - window_width / 2.0) > 5 || fabs(y - window_height / 2.0) > 5 )
