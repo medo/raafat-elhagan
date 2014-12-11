@@ -106,7 +106,7 @@ bool Person::move_forward() {
     double vertical_radians = Util::to_radians(vertical_angle);
     double z = pos.z + motion_speed * cos(horizontal_radians);
     double x = pos.x + motion_speed * sin(horizontal_radians);
-    if (map->intersects(Point(x + sin(horizontal_radians), pos.y - height/2.0, z + cos(horizontal_radians))))
+    if (map->intersects(Point(x + sin(horizontal_radians), pos.y, z + cos(horizontal_radians))))
         return false;
     pos.z = z;
     pos.x = x;

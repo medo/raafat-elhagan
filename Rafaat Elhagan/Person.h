@@ -17,7 +17,7 @@ class Person : public Obstacle {
     
 private:
     
-    double horizontal_angle, vertical_angle, look_depth, motion_speed, height, width, length;
+    double horizontal_angle, vertical_angle, look_depth, motion_speed, height, width, length, velocity;
     Point pos;
     Map *map;
     
@@ -40,6 +40,8 @@ public:
     bool move_back();
     bool move_right();
     bool move_left();
+    bool move_down();
+    bool move_up();
     bool intersects(Point p);
     void draw();
     
