@@ -11,22 +11,25 @@
 
 #include <stdio.h>
 #include "Obstacle.h"
+#include "Map.h"
 
 class Person : public Obstacle {
     
 private:
     
-    double horizontal_angle, vertical_angle, look_depth, motion_speed;
+    double horizontal_angle, vertical_angle, look_depth, motion_speed, height;
     Point pos;
+    Map *map;
     
 public:
     
     Person();
-    Person(Point pos, double look_depth, double motion_speed);
+    Person(Point pos, double look_depth, double motion_speed, double height, Map *map);
     double set_horizontal_angle(double angle);
     double set_vertical_angle(double angle);
     double add_to_position_y(double y);
     double get_position_y();
+    double get_height();
     Point get_look_at();
     Point get_position();
     Point set_position(Point pos);
@@ -35,6 +38,7 @@ public:
     bool move_back();
     bool move_right();
     bool move_left();
+    bool intersects();
     void draw();
     
 };

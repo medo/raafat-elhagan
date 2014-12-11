@@ -29,7 +29,7 @@ double camera_x, camera_y, camera_z, max_jump, velocity_y, center_x, center_y, c
 int screen_width, screen_height;
 bool jump, move_right, move_left, move_forward, move_back;
 Map map(100, 100);
-Person my_player(Point(0, 0, 0), 10, 0.1);
+Person *my_player;
 
 void display() {
     
@@ -43,8 +43,8 @@ void display() {
     glLoadIdentity();
     
     move();
-    Point looking_at = my_player.get_look_at();
-    Point position = my_player.get_position();
+    Point looking_at = my_player->get_look_at();
+    Point position = my_player->get_position();
     gluLookAt(position.x, position.y, position.z, looking_at.x, looking_at.y, looking_at.z, 0, 1, 0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
@@ -62,19 +62,19 @@ void move() {
     
     double horizontal_radians = Util::to_radians(horizontal_angle);
     double vertical_radians = Util::to_radians(vertical_angle);
-    my_player.add_to_position_y(velocity_y); //jump
-    if (my_player.get_position_y() > 0) velocity_y -= 0.02; else velocity_y = 0;
+    my_player->add_to_position_y(velocity_y); //jump
+    if (my_player->get_position_y() > my_player->get_height()) velocity_y -= 0.02; else velocity_y = 0;
     if (move_forward){
-        my_player.move_forward();
+        my_player->move_forward();
     }
     if (move_back){
-        my_player.move_back();
+        my_player->move_back();
     }
     if (move_right){
-        my_player.move_right();
+        my_player->move_right();
     }
     if (move_left){
-        my_player.move_left();
+        my_player->move_left();
     }
 }
 
@@ -128,8 +128,8 @@ void special_keyboard(int key, int x, int y) {
 
 void mouse_motion(int x, int y) {
     
-    my_player.set_vertical_angle(-(y - window_height / 2.0) / mouse_sensitivity);
-    my_player.set_horizontal_angle(-(x - window_width / 2.0) / mouse_sensitivity);
+    my_player->set_vertical_angle(-(y - window_height / 2.0) / mouse_sensitivity);
+    my_player->set_horizontal_angle(-(x - window_width / 2.0) / mouse_sensitivity);
     if (x >= window_width) {
 //        glutWarpPointer(0, 0);
     }
@@ -166,19 +166,9 @@ int main(int argc, char ** argv) {
     glEnable(GL_NORMALIZE);
     glClearColor(1.0, 1.0, 1.0, 0.0);
     cout << cos(2 * acos(-1));
-    camera_z = 0.0;
-    center_x = 0.0;
-    max_jump = 2.0;
-    center_x = 0.0;
-    center_y = 0.0;
-    look_depth = 20.0;
-    center_z = look_depth;
+    my_player = new Person(Point(0, 10, 0), 10, 0.1, 2, &map);
+//    max_jump = 2.0;
     mouse_sensitivity = 5;
-    init_mouse_x = -999999999;
-    init_mouse_y = -999999999;
-    motion_speed = 0.1;
-    horizontal_angle = 0;
-    vertical_angle = 0;
     //set the light source properties
     GLfloat lightIntensity[] = { 0.3f, 0.9f, 1, 1.0f };
     GLfloat light_position[] = { 0, 0.3f, 0.0f, 1.0f };
