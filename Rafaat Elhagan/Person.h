@@ -40,7 +40,7 @@ public:
     bool move_back();
     bool move_right();
     bool move_left();
-    bool intersects();
+    bool intersects(Point p);
     void draw();
     
 };
