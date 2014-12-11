@@ -24,7 +24,8 @@
 #include "Map.h"
 #include <stdlib.h>
 #include "Person.h"
-
+#include <thread>
+#include <unistd.h>
 
 using namespace std;
 
@@ -61,9 +62,6 @@ void display() {
     glFlush();
 
 }
-
-
-
 
 void move() {
     
@@ -147,6 +145,29 @@ void loop() {
     glutPostRedisplay();
 }
 
+void reporter(){
+  while(1){
+    Point p = my_player->get_position();
+    double horizontal_angle = my_player->get_horizontal_angle();
+    double vertical_angle = my_player->get_vertical_angle();
+    cout << p.x << " " << p.y << " " << p.z << " " << horizontal_angle << " " << vertical_angle << endl;
+
+    int milliseconds = 100;
+    usleep(milliseconds * 1000);
+  }
+}
+
+void receiver(){
+  while(1){
+    double x,y,z,h_angle,v_angle;
+    cin >> x >> y >> z >> h_angle >> v_angle;
+    cerr << "Got : " << x << " " << y << " "<< z << " " << h_angle << " " << v_angle << endl;
+    other_player->set_position(Point(x,y,z));
+    other_player->set_vertical_angle(v_angle);
+    other_player->set_horizontal_angle(h_angle);
+  }
+}
+
 int main(int argc, char ** argv) {
     
     glutInit(&argc, argv); // initialize the toolkit
@@ -174,7 +195,6 @@ int main(int argc, char ** argv) {
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_NORMALIZE);
     glClearColor(1.0, 1.0, 1.0, 0.0);
-    cout << cos(2 * acos(-1));
     my_player = new Person(Point(0, 10, 0), 10, 0.1, 2, &map);
     other_player = new Person(Point(0, 10, 0), 10, 0.1, 2, &map);
 //    max_jump = 2.0;
@@ -185,6 +205,10 @@ int main(int argc, char ** argv) {
     glLightfv(GL_LIGHT0, GL_POSITION, light_position);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, lightIntensity);
     glEnable(GL_COLOR_MATERIAL);
+  
+    thread _repoter(reporter);
+    thread _receiver(receiver);
+
     glutMainLoop(); // go into a perpetual loop
     
 }

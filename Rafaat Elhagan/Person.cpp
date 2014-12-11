@@ -38,6 +38,15 @@ double Person::set_vertical_angle(double angle) {
     return this->vertical_angle;
 }
 
+double Person::get_horizontal_angle(){
+    return this->horizontal_angle;
+}
+
+
+double Person::get_vertical_angle(){
+    return this->vertical_angle;
+}
+
 Point Person::set_position(Point pos) {
     this->pos = pos;
     return this->pos;

@@ -1,5 +1,5 @@
 CPP_FILES := $(shell find . -name "*.cpp" )
-COMPILE_FLAGS := -lglut -lGL -lGLU -lGLEW -lm -std=c++11
+COMPILE_FLAGS := -lglut -lGL -lGLU -lGLEW -lm -lpthread -std=c++11
 EXECUTABLE_NAME := main.bin
 
 all:

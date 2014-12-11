@@ -33,6 +33,8 @@ public:
     Point get_look_at();
     Point get_position();
     Point set_position(Point pos);
+    double get_horizontal_angle();
+    double get_vertical_angle();
     bool intersect(double x, double y);
     bool move_forward();
     bool move_back();
