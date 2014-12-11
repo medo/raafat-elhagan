@@ -13,6 +13,7 @@
 
 class Obstacle {
     
+public:
     bool intersects();
     void set_position(Point p);
     void draw();
