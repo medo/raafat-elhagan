@@ -140,7 +140,7 @@ void mouse_motion(int x, int y) {
 
     my_player->set_vertical_angle(prev_vertical);
     my_player->set_horizontal_angle(prev_horizontal);
-    if( fabs(x - window_width / 2.0) > 5 || fabs(y - window_height / 2.0) > 5 )
+    if( fabs(x - window_width / 2.0) > 50 || fabs(y - window_height / 2.0) > 50 )
       glutWarpPointer(window_width/2.0,window_height/2.0);
 }
 
