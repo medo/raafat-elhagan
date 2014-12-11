@@ -211,6 +211,7 @@ int main(int argc, char ** argv) {
     glutInitWindowPosition(300, 150); // set window position on
     //screen
     glutCreateWindow("Raafat Elhagan"); // open the screen window
+    glutFullScreen();
     glutDisplayFunc(display); // register redraw
     glutKeyboardFunc(keyboard);
     glutSpecialFunc(special_keyboard);
