@@ -92,9 +92,9 @@ double Person::get_height() {
 void Person::draw() {
     
     glPushMatrix();
-    glRotated(horizontal_angle, 0, 1, 0);
     glScaled(width, height, length);
     glTranslated(pos.x / width , pos.y / height, pos.z / length);
+    glRotated(horizontal_angle, 0, 1, 0);
     glutSolidCube(1);
     glPopMatrix();
 }
