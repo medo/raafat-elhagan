@@ -181,7 +181,7 @@ void reporter(){
     double vertical_angle = my_player->get_vertical_angle();
     cout << p.x << " " << p.y << " " << p.z << " " << horizontal_angle << " " << vertical_angle << endl;
 
-    int milliseconds = 100;
+    int milliseconds = 10;
     usleep(milliseconds * 1000);
   }
 }
@@ -235,6 +235,7 @@ int main(int argc, char ** argv) {
     glLightfv(GL_LIGHT0, GL_POSITION, light_position);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, lightIntensity);
     glEnable(GL_COLOR_MATERIAL);
+    glutSetCursor(GLUT_CURSOR_NONE);
   
     thread _repoter(reporter);
     thread _receiver(receiver);
