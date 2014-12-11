@@ -7,10 +7,15 @@
 //
 
 #include "Wall.h"
+
 #ifdef __APPLE__
 #include <OpenGL/gl.h>
 #include <OpenGL/glu.h>
 #include <GLUT/glut.h>
+#endif
+
+#ifdef __linux__
+#include <GL/glut.h>
 #endif
 
 Wall::Wall(double width, double length, double height, Point position) {

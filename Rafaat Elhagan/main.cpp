@@ -7,13 +7,21 @@
 //
 
 
+#ifdef __APPLE__
 #include <GLUT/GLUT.h>
+#endif
+
+#ifdef __linux__
+#include <GL/glut.h>
+#endif
+
 #include <iostream>
 #include <stdlib.h>
 #include "Wall.h"
 #include "Point.h"
 
 using namespace std;
+
 void display() {
     
     glMatrixMode(GL_PROJECTION);
@@ -35,8 +43,6 @@ void display() {
     glPopMatrix();
     glFlush();
 
-    
-    
 }
 
 int main(int argc, char ** argv) {
