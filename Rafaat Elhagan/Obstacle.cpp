@@ -6,11 +6,7 @@
 //  Copyright (c) 2014 GUC. All rights reserved.
 //
 //
-//#include <stdio.h>
-//#include "Obstacle.h"
-//#include <iostream>
+#include <stdio.h>
+#include "Obstacle.h"
+#include <iostream>
 //
-//void Obstacle::draw() {
-//    
-//    
-//}

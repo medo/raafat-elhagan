@@ -15,6 +15,7 @@
 #include <math.h>
 #include "Util.h"
 #include "Map.h"
+#include "Person.h"
 
 
 using namespace std;
@@ -28,6 +29,7 @@ double camera_x, camera_y, camera_z, max_jump, velocity_y, center_x, center_y, c
 int screen_width, screen_height;
 bool jump, move_right, move_left, move_forward, move_back;
 Map map(100, 100);
+Person my_player(Point(0, 0, 0), 10, 0.1);
 
 void display() {
     
@@ -41,8 +43,9 @@ void display() {
     glLoadIdentity();
     
     move();
-    calculate_camera_direction();
-    gluLookAt(camera_x, camera_y, camera_z, center_x, center_y, center_z, 0, 1, 0);
+    Point looking_at = my_player.get_look_at();
+    Point position = my_player.get_position();
+    gluLookAt(position.x, position.y, position.z, looking_at.x, looking_at.y, looking_at.z, 0, 1, 0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     map.draw();
@@ -53,38 +56,25 @@ void display() {
 }
 
 
-void calculate_camera_direction() {
-    double horizontal_radians = Util::to_radians(horizontal_angle);
-    double vertical_radians = Util::to_radians(vertical_angle);
-    center_z = camera_z + look_depth * cos(horizontal_radians) * cos(vertical_radians);
-    center_x = camera_x + look_depth * sin(horizontal_radians) * cos(vertical_radians);
-    center_y = camera_y + look_depth * sin(vertical_radians);
-    
-}
+
 
 void move() {
     
     double horizontal_radians = Util::to_radians(horizontal_angle);
     double vertical_radians = Util::to_radians(vertical_angle);
-    camera_y += velocity_y; //jump
-    if (camera_y > 0) velocity_y -= 0.02; else velocity_y = 0;
-    //moving
-    cout << camera_x << " " << camera_z << "\n";
+    my_player.add_to_position_y(velocity_y); //jump
+    if (my_player.get_position_y() > 0) velocity_y -= 0.02; else velocity_y = 0;
     if (move_forward){
-        camera_z += motion_speed * cos(horizontal_radians);
-        camera_x += motion_speed * sin(horizontal_radians);
+        my_player.move_forward();
     }
     if (move_back){
-        camera_z -= motion_speed * cos(horizontal_radians);
-        camera_x -= motion_speed * sin(horizontal_radians);
+        my_player.move_back();
     }
     if (move_right){
-        camera_z += motion_speed * sin(horizontal_radians);
-        camera_x -= motion_speed * cos(horizontal_radians);
+        my_player.move_right();
     }
     if (move_left){
-        camera_z -= motion_speed * sin(horizontal_radians);
-        camera_x += motion_speed * cos(horizontal_radians);
+        my_player.move_left();
     }
 }
 
@@ -138,10 +128,10 @@ void special_keyboard(int key, int x, int y) {
 
 void mouse_motion(int x, int y) {
     
-    vertical_angle = -(y - window_height / 2.0) / mouse_sensitivity;
-    horizontal_angle = -(x - window_width / 2.0) / mouse_sensitivity;
+    my_player.set_vertical_angle(-(y - window_height / 2.0) / mouse_sensitivity);
+    my_player.set_horizontal_angle(-(x - window_width / 2.0) / mouse_sensitivity);
     if (x >= window_width) {
-        glutWarpPointer(0, 0);
+//        glutWarpPointer(0, 0);
     }
 }
 

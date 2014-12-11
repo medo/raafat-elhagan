@@ -18,7 +18,7 @@ class Map {
 private:
     
     int length, width;
-    vector<Obstacle> obstacles;
+    vector<Obstacle *> obstacles;
     
     void init_map();
     
@@ -27,8 +27,8 @@ public:
     int get_length();
     int get_width();
     void draw();
-    vector<Obstacle> get_obstacles();
-    void add_obstacle(vector<Wall> obstacle);
+    vector<Obstacle *> get_obstacles();
+    void add_obstacle(vector<Obstacle *> obstacle);
     Map(int length, int width);
     
 };

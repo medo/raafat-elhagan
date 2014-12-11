@@ -60,7 +60,6 @@ bool Wall::intersects(Point p) {
 }
 
 void Wall::draw() {
-    std::cout << "aaaaaaaaaaaa";
     glPushMatrix();
     glScaled(width, length, height);
     glTranslated(position.x / width, position.y / length, position.z / height);
