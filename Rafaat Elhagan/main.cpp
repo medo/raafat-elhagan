@@ -130,12 +130,18 @@ void special_keyboard(int key, int x, int y) {
 }
 
 void mouse_motion(int x, int y) {
-    
-    my_player->set_vertical_angle(-(y - window_height / 2.0) / mouse_sensitivity);
-    my_player->set_horizontal_angle(-(x - window_width / 2.0) / mouse_sensitivity);
-    if (x >= window_width) {
-//        glutWarpPointer(0, 0);
-    }
+    double prev_vertical = my_player->get_vertical_angle();
+    double prev_horizontal = my_player->get_horizontal_angle();
+
+    prev_vertical += -(y - window_height / 2.0) / mouse_sensitivity;
+    prev_vertical = min(prev_vertical, 90.0);
+    prev_vertical = max(prev_vertical, -90.0);
+    prev_horizontal += -(x - window_width / 2.0) / mouse_sensitivity;
+
+    my_player->set_vertical_angle(prev_vertical);
+    my_player->set_horizontal_angle(prev_horizontal);
+    if( fabs(x - window_width / 2.0) > 5 || fabs(y - window_height / 2.0) > 5 )
+      glutWarpPointer(window_width/2.0,window_height/2.0);
 }
 
 GLint gFramesPerSecond = 0;
@@ -210,6 +216,7 @@ int main(int argc, char ** argv) {
     glutInitWindowPosition(300, 150); // set window position on
     //screen
     glutCreateWindow("Raafat Elhagan"); // open the screen window
+    glutFullScreen();
     glutDisplayFunc(display); // register redraw
     glutKeyboardFunc(keyboard);
     glutSpecialFunc(special_keyboard);
@@ -227,13 +234,14 @@ int main(int argc, char ** argv) {
     other_player = new Person(Point(0, 10, 0), 10, 0.1, 2, &map);
     map.add_obstacle(other_player);
 //    max_jump = 2.0;
-    mouse_sensitivity = 5;
+    mouse_sensitivity = 10;
     //set the light source properties
     GLfloat lightIntensity[] = { 0.3f, 0.9f, 1, 1.0f };
     GLfloat light_position[] = { 0, 0.3f, 0.0f, 1.0f };
     glLightfv(GL_LIGHT0, GL_POSITION, light_position);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, lightIntensity);
     glEnable(GL_COLOR_MATERIAL);
+    glutSetCursor(GLUT_CURSOR_NONE);
   
     thread _repoter(reporter);
     thread _receiver(receiver);
