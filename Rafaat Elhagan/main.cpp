@@ -33,6 +33,7 @@ void move();
 void calculate_camera_direction();
 
 double camera_x, camera_y, camera_z, max_jump, velocity_y, center_x, center_y, center_z, window_width, window_height, init_mouse_x, init_mouse_y, mouse_sensitivity, look_depth, horizontal_angle, vertical_angle, horizontal_angle_previous, vertical_angle_previous, motion_speed;
+double prev_v_angle = 0, prev_h_angle=0;
 
 int screen_width, screen_height;
 bool jump, move_right, move_left, move_forward, move_back;
@@ -134,15 +135,18 @@ void mouse_motion(int x, int y) {
     double prev_vertical = my_player->get_vertical_angle();
     double prev_horizontal = my_player->get_horizontal_angle();
 
-    prev_vertical += -(y - window_height / 2.0) / mouse_sensitivity;
+    prev_vertical = -(y - window_height / 2.0) / mouse_sensitivity + prev_v_angle;
     prev_vertical = min(prev_vertical, 90.0);
     prev_vertical = max(prev_vertical, -90.0);
-    prev_horizontal += -(x - window_width / 2.0) / mouse_sensitivity;
+    prev_horizontal = -(x - window_width / 2.0) / mouse_sensitivity + prev_h_angle;
 
     my_player->set_vertical_angle(prev_vertical);
     my_player->set_horizontal_angle(prev_horizontal);
-    if( fabs(x - window_width / 2.0) > 5 || fabs(y - window_height / 2.0) > 5 )
+    if( x < 10 || x > window_width - 10 || y < 10 || y > window_height - 10 ){
+      prev_v_angle = prev_vertical;
+      prev_h_angle = prev_horizontal;
       glutWarpPointer(window_width/2.0,window_height/2.0);
+    }
 }
 
 GLint gFramesPerSecond = 0;
@@ -211,8 +215,8 @@ int main(int argc, char ** argv) {
     
     screen_width = glutGet(GLUT_SCREEN_WIDTH);
     screen_height = glutGet(GLUT_SCREEN_HEIGHT);
-    window_width = 640;
-    window_height = 480;
+    window_width = screen_width;
+    window_height = screen_height;
     glutInitWindowSize(window_width, window_height); // set window size
     glutInitWindowPosition(300, 150); // set window position on
     //screen
@@ -224,6 +228,7 @@ int main(int argc, char ** argv) {
     glutSpecialUpFunc(keyboard_up);
     glutIdleFunc(loop);
     glutPassiveMotionFunc(mouse_motion);
+    glutWarpPointer(window_width/2.0,window_height/2.0);
 //    system("afplay ~/Desktop/rafat-elhagan.mp3 &");
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
