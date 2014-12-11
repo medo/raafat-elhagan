@@ -29,7 +29,7 @@ public:
     void draw();
     bool intersects(Point p);
     vector<Obstacle *> get_obstacles();
-    void add_obstacle(vector<Obstacle *> obstacle);
+    void add_obstacle(Obstacle *obstacle);
     Map(int length, int width);
     
 };
