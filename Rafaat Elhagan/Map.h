@@ -8,6 +8,7 @@
 
 #include <vector>
 #include "Obstacle.h"
+#include "Wall.h"
 using namespace std;
 #ifndef Rafaat_Elhagan_Map_h
 #define Rafaat_Elhagan_Map_h
@@ -17,14 +18,18 @@ class Map {
 private:
     
     int length, width;
-    vector<Obstacle> obstacles;
+    vector<Obstacle *> obstacles;
+    
+    void init_map();
     
 public:
     
     int get_length();
     int get_width();
-    vector<Obstacle> get_obstacles();
-    void add_obstacle(vector<Obstacle> obstacle);
+    void draw();
+    bool intersects(Point p);
+    vector<Obstacle *> get_obstacles();
+    void add_obstacle(vector<Obstacle *> obstacle);
     Map(int length, int width);
     
 };

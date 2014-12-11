@@ -13,9 +13,10 @@
 
 class Obstacle {
     
-    bool intersects();
+public:
+    virtual bool intersects(Point p) { return false;};
     void set_position(Point p);
-    void draw();
+    virtual void draw() = 0;
     
 };
 
