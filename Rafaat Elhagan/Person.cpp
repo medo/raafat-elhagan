@@ -19,6 +19,7 @@
 #include <iostream>
 #include "Map.h"
 
+
 Person::Person(Point pos, double look_depth, double motion_speed, double height, Map *map) {
     this->pos = pos;
     this->look_depth = look_depth;
@@ -78,9 +79,10 @@ double Person::get_height() {
 }
 
 void Person::draw() {
+    cout << pos.x << "\n";
     glPushMatrix();
-    glScaled(1, 1, 5);
-    glTranslated(pos.x / 1, pos.y / 1, pos.z / 5);
+    glScaled(2, 2, 5);
+    glTranslated(pos.x , pos.y, pos.z);
     glutSolidCube(1);
     glPopMatrix();
 }
