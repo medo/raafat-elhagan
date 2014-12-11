@@ -15,6 +15,7 @@
 #include <math.h>
 #include "Util.h"
 #include "Map.h"
+#include <stdlib.h>
 #include "Person.h"
 
 
@@ -145,6 +146,7 @@ int main(int argc, char ** argv) {
     glutInit(&argc, argv); // initialize the toolkit
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH); // set
     //display mode
+    system("afplay ~/Desktop/rafat-elhagan.mp3");
     screen_width = glutGet(GLUT_SCREEN_WIDTH);
     screen_height = glutGet(GLUT_SCREEN_HEIGHT);
     window_width = 640;

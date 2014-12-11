@@ -13,6 +13,7 @@
 #include <iostream>
 #include "Map.h"
 
+
 Person::Person(Point pos, double look_depth, double motion_speed, double height, Map *map) {
     this->pos = pos;
     this->look_depth = look_depth;
