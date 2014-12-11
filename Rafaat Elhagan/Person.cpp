@@ -92,9 +92,14 @@ double Person::get_height() {
 void Person::draw() {
     
     glPushMatrix();
-    glRotated(horizontal_angle, 0, 1, 0);
+    glTranslated(-pos.x / width, -pos.y / height, -pos.z / length);
+    
     glScaled(width, height, length);
     glTranslated(pos.x / width , pos.y / height, pos.z / length);
+    glRotated(horizontal_angle, 0, 1, 0);
+
+    
+    
     glutSolidCube(1);
     glPopMatrix();
 }
@@ -105,7 +110,7 @@ bool Person::move_forward() {
     double vertical_radians = Util::to_radians(vertical_angle);
     double z = pos.z + motion_speed * cos(horizontal_radians);
     double x = pos.x + motion_speed * sin(horizontal_radians);
-    if (map->intersects(Point(x + sin(horizontal_radians), pos.y, z + cos(horizontal_radians))))
+    if (map->intersects(Point(x + sin(horizontal_radians), pos.y - height/2.0, z + cos(horizontal_radians))))
         return false;
     pos.z = z;
     pos.x = x;
@@ -120,6 +125,7 @@ bool Person::move_back() {
     if (map->intersects(Point(x - sin(horizontal_radians), pos.y, z - cos(horizontal_radians))))
         return false;
 
+    
     pos.z = z;
     pos.x = x;
     return true;
@@ -130,7 +136,7 @@ bool Person::move_right() {
     double vertical_radians = Util::to_radians(vertical_angle);
     double z = pos.z + motion_speed * sin(horizontal_radians);
     double x = pos.x - motion_speed * cos(horizontal_radians);
-    if (map->intersects(Point(x - cos(horizontal_radians), pos.y, z + sin(horizontal_radians))))
+    if (map->intersects(Point(x - cos(horizontal_radians),  pos.y, z + sin(horizontal_radians))))
         return false;
 
     pos.z = z;
@@ -143,11 +149,29 @@ bool Person::move_left() {
     double vertical_radians = Util::to_radians(vertical_angle);
     double z = pos.z - motion_speed * sin(horizontal_radians);
     double x = pos.x + motion_speed * cos(horizontal_radians);
-    if (map->intersects(Point(x + cos(horizontal_radians), pos.y, z - sin(horizontal_radians))))
+    if (map->intersects(Point(x + cos(horizontal_radians),  pos.y, z - sin(horizontal_radians))))
         return false;
     pos.z = z;
     pos.x = x;
     
+    return true;
+}
+
+bool Person::move_down() {
+    if (map->intersects(Point(pos.x, pos.y - height/2.0, pos.z))) {
+        velocity = 0;
+        pos.y = height/2.0;
+        return false;
+    }
+    
+    velocity -= 0.02;
+    pos.y += velocity;
+    return true;
+}
+
+bool Person::move_up() {
+    velocity = 0.4;
+    pos.y += velocity;
     return true;
 }
 

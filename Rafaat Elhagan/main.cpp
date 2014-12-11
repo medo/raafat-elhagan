@@ -32,7 +32,7 @@ using namespace std;
 void move();
 void calculate_camera_direction();
 
-double camera_x, camera_y, camera_z, max_jump, velocity_y, center_x, center_y, center_z, window_width, window_height, init_mouse_x, init_mouse_y, mouse_sensitivity, look_depth, horizontal_angle, vertical_angle, horizontal_angle_previous, vertical_angle_previous, motion_speed;
+double camera_x, camera_y, camera_z, max_jump, velocity_y, center_x, center_y, center_z, window_width, window_height, init_mouse_x, init_mouse_y, mouse_sensitivity, look_depth, horizontal_angle, vertical_angle, horizontal_angle_previous, vertical_angle_previous, motion_speed, before_jump;
 
 int screen_width, screen_height;
 bool jump, move_right, move_left, move_forward, move_back;
@@ -66,8 +66,7 @@ void move() {
     
     double horizontal_radians = Util::to_radians(horizontal_angle);
     double vertical_radians = Util::to_radians(vertical_angle);
-    my_player->add_to_position_y(velocity_y); //jump
-    if (my_player->get_position_y() > my_player->get_height()) velocity_y -= 0.02; else velocity_y = 0;
+    my_player->move_down(); //gravity
     if (move_forward){
         my_player->move_forward();
     }
@@ -85,7 +84,7 @@ void move() {
 void keyboard(unsigned char key, int x, int y) {
    
     if (key == ' ') {
-        velocity_y = 0.3;
+        my_player->move_up();
     }
 }
 
@@ -181,7 +180,7 @@ void reporter(){
     double vertical_angle = my_player->get_vertical_angle();
     cout << p.x << " " << p.y << " " << p.z << " " << horizontal_angle << " " << vertical_angle << endl;
 
-    int milliseconds = 100;
+    int milliseconds = 10;
     usleep(milliseconds * 1000);
   }
 }
