@@ -70,8 +70,8 @@ Point Person::get_position() {
 }
 
 
-bool Person::intersect(double x, double y) {
-    return true;
+bool Person::intersects(Point p) {
+    return p.x >= pos.x - width/2.0 && p.x <= pos.x + width/2.0 && p.y >= pos.z - length/2.0 && p.y <= pos.z + length/2.0;
 }
 
 double Person::add_to_position_y(double y) {
@@ -92,6 +92,7 @@ double Person::get_height() {
 void Person::draw() {
     
     glPushMatrix();
+    glRotated(horizontal_angle, 0, 1, 0);
     glScaled(width, height, length);
     glTranslated(pos.x / width , pos.y / height, pos.z / length);
     glutSolidCube(1);
@@ -148,10 +149,6 @@ bool Person::move_left() {
     pos.x = x;
     
     return true;
-}
-
-bool Person::intersects() {
-    return false;
 }
 
 
