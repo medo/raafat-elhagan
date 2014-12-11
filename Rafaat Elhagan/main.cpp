@@ -30,7 +30,7 @@ double camera_x, camera_y, camera_z, max_jump, velocity_y, center_x, center_y, c
 int screen_width, screen_height;
 bool jump, move_right, move_left, move_forward, move_back;
 Map map(100, 100);
-Person *my_player;
+Person *my_player, *other_player;
 
 void display() {
     
@@ -46,6 +46,7 @@ void display() {
     move();
     Point looking_at = my_player->get_look_at();
     Point position = my_player->get_position();
+    other_player->draw();
     gluLookAt(position.x, position.y, position.z, looking_at.x, looking_at.y, looking_at.z, 0, 1, 0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
@@ -146,7 +147,7 @@ int main(int argc, char ** argv) {
     glutInit(&argc, argv); // initialize the toolkit
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH); // set
     //display mode
-    system("afplay ~/Desktop/rafat-elhagan.mp3");
+    
     screen_width = glutGet(GLUT_SCREEN_WIDTH);
     screen_height = glutGet(GLUT_SCREEN_HEIGHT);
     window_width = 640;
@@ -161,6 +162,7 @@ int main(int argc, char ** argv) {
     glutSpecialUpFunc(keyboard_up);
     glutIdleFunc(loop);
     glutPassiveMotionFunc(mouse_motion);
+//    system("afplay ~/Desktop/rafat-elhagan.mp3 &");
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
     glShadeModel(GL_SMOOTH);
@@ -169,6 +171,7 @@ int main(int argc, char ** argv) {
     glClearColor(1.0, 1.0, 1.0, 0.0);
     cout << cos(2 * acos(-1));
     my_player = new Person(Point(0, 10, 0), 10, 0.1, 2, &map);
+    other_player = new Person(Point(0, 10, 0), 10, 0.1, 2, &map);
 //    max_jump = 2.0;
     mouse_sensitivity = 5;
     //set the light source properties
