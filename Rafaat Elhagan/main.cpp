@@ -74,13 +74,22 @@ void render_overlay()
 
     // Game Information
     ss1 << "Your Score : " << my_player->get_score() << " , Other player score : " << other_player->get_score();
-    ss2 << "Health : " << my_player->get_health() << " , " << other_player->get_health();
+    ss2 << "Health : " << my_player->get_health();
+    ss3 << "Opponent Health : " << other_player->get_health();
 
 
     glPushMatrix();
     glColor3d(0,0,0);
     print( 9, window_height - 15, (char *)ss1.str().c_str() );
+    if( my_player->get_health() < 50 ){
+        glColor3d(1,0,0);
+    }
     print( window_width - ss2.str().size()*9 - 9, window_height - 15, (char *)ss2.str().c_str() );
+    glColor3d(0,0,0);
+    if( other_player->get_health() < 50 ){
+        glColor3d(1,0,0);
+    }
+    print( window_width - ss3.str().size()*9 - 9, window_height - 35, (char *)ss3.str().c_str() );
     glPopMatrix();
 
 
