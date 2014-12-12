@@ -154,9 +154,8 @@ bool Person::move_left() {
 }
 
 bool Person::move_down() {
-    if (map->intersects(Point(pos.x, pos.y - height/2.0, pos.z))) {
+    if (map->intersects(Point(pos.x, pos.y - height/2.0 + 0.01, pos.z))) {
         velocity = 0;
-        pos.y = height/2.0;
         return false;
     }
     
