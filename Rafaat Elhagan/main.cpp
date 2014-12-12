@@ -9,15 +9,14 @@
 
 #ifdef __APPLE__
 #include <GLUT/GLUT.h>
-#endif
-
-#ifdef __linux__
+#elif defined __linux__
 #include <GL/glut.h>
 #endif
 
 #include <iostream>
 #include <stdlib.h>
 #include "Wall.h"
+
 #include "Point.h"
 #include <math.h>
 #include "Util.h"
@@ -47,7 +46,7 @@ void display() {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     
-    gluPerspective(60, window_width/window_height, 0.1, 115);
+    gluPerspective(60, window_width/window_height, 0.1, 1000);
     
     //set the camera
     glMatrixMode(GL_MODELVIEW);
@@ -58,6 +57,10 @@ void display() {
     Point position = my_player->get_position();
     
     gluLookAt(position.x, position.y, position.z, looking_at.x, looking_at.y, looking_at.z, 0, 1, 0);
+    GLfloat lightIntensity[] = {0, 1,};
+    GLfloat light_position[] = { 0, 0.3f, 0.0f, 1.0f };
+    //    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+    glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, lightIntensity);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     map.draw();
@@ -214,7 +217,6 @@ void reporter(){
       cout << "s" << endl;
       is_shooting = false;
     }
-
     int milliseconds = 10;
     usleep(milliseconds * 1000);
   }
@@ -273,10 +275,7 @@ int main(int argc, char ** argv) {
 //    max_jump = 2.0;
     mouse_sensitivity = 10;
     //set the light source properties
-    GLfloat lightIntensity[] = { 0.3f, 0.9f, 1, 1.0f };
-    GLfloat light_position[] = { 0, 0.3f, 0.0f, 1.0f };
-    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, lightIntensity);
+    
     glEnable(GL_COLOR_MATERIAL);
     glutSetCursor(GLUT_CURSOR_NONE);
   
