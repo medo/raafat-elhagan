@@ -98,14 +98,14 @@ void render_overlay()
 
 
     glBegin(GL_LINES);
-    glColor3d(1,1,1);
+    glColor3d(0.5,0.5,0.5);
     glVertex2d(window_width/2.0, window_height/2.0 - 10);
     glVertex2d(window_width/2.0, window_height/2.0 + 10);
     glEnd();
 
 
     glBegin(GL_LINES);
-    glColor3d(0,0,0);
+    glColor3d(0.5,0.5,0.5);
     glVertex2d(window_width/2.0 - 10, window_height/2.0);
     glVertex2d(window_width/2.0 + 10, window_height/2.0);
     glEnd();
@@ -276,7 +276,6 @@ void shoot(){
     string x = "./assets/rifle_sound.mp3";
     play_sound(x);
     int hit = map.shoot(my_player->get_position(), my_player->get_horizontal_angle(), my_player->get_vertical_angle());
-    cerr << hit << endl;
     if( hit == 1 ){
       other_player->hit(30);
       if( other_player->is_dead() ){
