@@ -82,13 +82,13 @@ void render_overlay()
 
 
     glPushMatrix();
-    glColor3d(0,0,0);
+    glColor3d(1,1,1);
     print( 9, window_height - 15, (char *)ss1.str().c_str() );
     if( my_player->get_health() < 50 ){
         glColor3d(1,0,0);
     }
     print( window_width - ss2.str().size()*9 - 9, window_height - 15, (char *)ss2.str().c_str() );
-    glColor3d(0,0,0);
+    glColor3d(1,1,1);
     if( other_player->get_health() < 50 ){
         glColor3d(1,0,0);
     }
@@ -97,7 +97,7 @@ void render_overlay()
 
 
     glBegin(GL_LINES);
-    glColor3d(0,0,0);
+    glColor3d(1,1,1);
     glVertex2d(window_width/2.0, window_height/2.0 - 10);
     glVertex2d(window_width/2.0, window_height/2.0 + 10);
     glEnd();
