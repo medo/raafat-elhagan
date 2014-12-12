@@ -8,6 +8,7 @@
 
 #include "Wall.h"
 #include <iostream>
+#include <string>
 #ifdef __APPLE__
 #include <GLUT/glut.h>
 #endif
@@ -53,6 +54,10 @@ double Wall::get_width() {
 double Wall::get_length() {
 
     return length;
+}
+
+int Wall::get_type(){
+  return 0;
 }
 
 bool Wall::intersects(Point p) {

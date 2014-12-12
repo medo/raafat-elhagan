@@ -39,7 +39,7 @@ double prev_v_angle = 0, prev_h_angle=0;
 
 
 int screen_width, screen_height;
-bool jump, move_right, move_left, move_forward, move_back, is_shooting;
+bool jump, move_right, move_left, move_forward, move_back, is_shooting, is_hit;
 Map map(100, 100);
 Person *my_player, *other_player;
 
@@ -54,7 +54,7 @@ void print(double x, double y, char *string){
   }
 }
 
-void renderOverlay()
+void render_overlay()
 {
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
@@ -72,7 +72,7 @@ void renderOverlay()
 
     // Game Information
     ss1 << "Your Score : " << my_player->get_score() << " , Other player score : " << other_player->get_score();
-    ss2 << "Health : " << my_player->get_health();
+    ss2 << "Health : " << my_player->get_health() << " , " << other_player->get_health();
 
 
     glPushMatrix();
@@ -128,7 +128,7 @@ void display() {
     
     map.draw();
 
-    renderOverlay();
+    render_overlay();
     glFlush();
 
 }
@@ -212,6 +212,12 @@ void play_sound(string path){
 void shoot(){
     string x = "./assets/rifle_sound.mp3";
     play_sound(x);
+    int hit = map.shoot(my_player->get_position(), my_player->get_horizontal_angle(), my_player->get_vertical_angle());
+    cerr << hit << endl;
+    if( hit == 1 ){
+      other_player->hit(30);
+      is_hit = true;
+    }
     is_shooting = true;
 }
 
@@ -286,6 +292,13 @@ void reporter(){
       cout << "s" << endl;
       is_shooting = false;
     }
+
+    if(is_hit){
+      cout << "h" << endl;
+      cout << other_player->get_health() << endl;
+      is_hit= false;
+    }
+
     int milliseconds = 10;
     usleep(milliseconds * 1000);
   }
@@ -300,6 +313,10 @@ void receiver(){
       cerr << "Got : s" << endl;
       string x = "./assets/rifle_sound.mp3";
       play_sound(x);
+    }else if( type == "h" ){
+      int h;
+      cin >> h;
+      my_player->set_health(h);
     }else{
       cin >> x >> y >> z >> h_angle >> v_angle;
       cerr << "Got : " << x << " " << y << " "<< z << " " << h_angle << " " << v_angle << endl;

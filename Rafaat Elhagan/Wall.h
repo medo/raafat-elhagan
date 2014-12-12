@@ -8,6 +8,7 @@
 
 #include "Point.h"
 #include "Obstacle.h"
+#include <string>
 #ifdef __APPLE__
 #include <GLUT/GLUT.h>
 #endif
@@ -44,6 +45,7 @@ public:
     double get_length();
     bool intersects(Point p);
     void draw();
+    int get_type();
 
 };
 

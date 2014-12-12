@@ -20,7 +20,8 @@
 #include "TextureBuilder.h"
 #include <stdlib.h>
 #include <iostream>
-
+#include "Util.h"
+#include <cmath>
 
 Map::Map(int width, int length) {
     this->width = width;
@@ -79,6 +80,35 @@ void Map::add_obstacle(Obstacle *obstacle) {
     this->obstacles.push_back(obstacle);
 }
 
+int Map::shoot(Point pos, double h_angle, double v_angle){
+  
+    double horizontal_radians = Util::to_radians(h_angle);
+    double vertical_radians = Util::to_radians(v_angle);
+
+    pos.z = pos.z + 1 * cos(horizontal_radians);
+    pos.x = pos.x + 1 * sin(horizontal_radians);
+    pos.y = pos.y + 1 * sin(vertical_radians);
+    
+    while(pos.x > -width/2.0 && pos.x < width/2.0 && pos.z > -length/2.0 && pos.z < length/2.0 && pos.y >= 0 && pos.y < 1000){
+        for (int i = 0; i < this->obstacles.size(); i++) {
+            if(this->obstacles[i]->intersects(pos)){
+                if(this->obstacles[i]->get_type() == 0){
+                  return 0;
+                }else{
+                  return 1;
+                }
+            }
+        }
+
+        pos.z = pos.z + 1 * cos(horizontal_radians);
+        pos.x = pos.x + 1 * sin(horizontal_radians);
+        pos.y = pos.y + 1 * sin(vertical_radians);
+
+    }
+
+    return -1;
+}
+
 void Map::init_map() {
     
     //room
@@ -99,5 +129,4 @@ void Map::init_map() {
     this->obstacles.push_back(step);
     
 }
-
 

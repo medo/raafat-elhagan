@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include "Obstacle.h"
 #include "Map.h"
+#include <string>
 
 class Person : public Obstacle {
     
@@ -47,8 +48,10 @@ public:
     void draw();
     int get_score();
     int get_health();
+    void set_health(int value);
     bool is_dead();
     void hit(int val);
+    int get_type();
     
 };
 

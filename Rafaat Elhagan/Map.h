@@ -31,6 +31,7 @@ public:
     double get_height(Point p);
     vector<Obstacle *> get_obstacles();
     void add_obstacle(Obstacle *obstacle);
+    int shoot(Point pos, double h_angle, double v_angle);
     Map(int length, int width);
     
 };

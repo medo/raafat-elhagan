@@ -88,7 +88,7 @@ Point Person::get_position() {
 
 
 bool Person::intersects(Point p) {
-    return p.x >= pos.x - width/2.0 && p.x <= pos.x + width/2.0 && p.y >= pos.z - length/2.0 && p.y <= pos.z + length/2.0;
+    return p.x >= pos.x - width/2.0 && p.x <= pos.x + width/2.0 && p.z >= pos.z - length/2.0 && p.z <= pos.z + length/2.0 && p.y >= pos.y - height/2.0 && p.y <= pos.y + height/2.0;
 }
 
 double Person::add_to_position_y(double y) {
@@ -186,6 +186,15 @@ bool Person::move_up() {
     velocity = 0.4;
     pos.y += velocity;
     return true;
+}
+
+
+int Person::get_type(){
+    return 1;
+}
+
+void Person::set_health(int value){
+    health = value;
 }
 
 

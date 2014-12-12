@@ -18,6 +18,7 @@ public:
     void set_position(Point p);
     virtual void draw() = 0;
     virtual double get_height() = 0;
+    virtual int get_type() = 0;
     
 };
 
