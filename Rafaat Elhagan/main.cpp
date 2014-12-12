@@ -202,6 +202,47 @@ void keyboard_up(unsigned char key, int x, int y) {
     }
 }
 
+void keyboard_up2(int key, int x, int y) {
+    
+    switch (key) {
+        case GLUT_KEY_UP:
+            move_forward = false;
+            break;
+        case GLUT_KEY_DOWN:
+            move_back = false;
+            break;
+        case GLUT_KEY_RIGHT:
+            move_right = false;
+            break;
+        case GLUT_KEY_LEFT:
+            move_left = false;
+            break;
+        default:
+            break;
+    }
+
+}
+
+void special_keyboard(int key, int x, int y) {
+    
+    switch (key) {
+        case GLUT_KEY_UP:
+            move_forward = true;
+            break;
+        case GLUT_KEY_DOWN:
+            move_back = true;
+            break;
+        case GLUT_KEY_RIGHT:
+            move_right = true;
+            break;
+        case GLUT_KEY_LEFT:
+            move_left = true;
+            break;
+        default:
+            break;
+     }
+ }
+
 
 void play_sound(string path){
 #ifdef __APPLE__
@@ -371,6 +412,8 @@ int main(int argc, char ** argv) {
     glutFullScreen(); glutDisplayFunc(display); // register redraw glutKeyboardFunc(keyboard_up);
     glutKeyboardFunc(keyboard_up);
     glutKeyboardUpFunc(keyboard_down);
+    glutSpecialFunc(special_keyboard);
+    glutSpecialUpFunc(keyboard_up2);
     glutMouseFunc(mouse_clicks);
     glutIdleFunc(loop);
     glutPassiveMotionFunc(mouse_motion);
