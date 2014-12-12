@@ -372,6 +372,7 @@ void receiver(){
       int h;
       cin >> h;
       my_player->set_health(h);
+      play_sound("./assets/pain.mp3");
     }else if( type == "r" ){
       my_player->set_health(100);
       my_player->set_position(Point(0,10,-10));
