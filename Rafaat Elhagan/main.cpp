@@ -26,6 +26,8 @@
 #include <thread>
 #include <unistd.h>
 #include <string>
+#include <cstring>
+#include <sstream>
 
 using namespace std;
 
@@ -40,6 +42,67 @@ int screen_width, screen_height;
 bool jump, move_right, move_left, move_forward, move_back, is_shooting;
 Map map(100, 100);
 Person *my_player, *other_player;
+
+
+
+void print(double x, double y, char *string){
+  int len, i;
+  glRasterPos2f(x, y);
+  len = (int) strlen(string);
+  for (i = 0; i < len; i++){
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15,string[i]);
+  }
+}
+
+void renderOverlay()
+{
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+    glLoadIdentity();
+    gluOrtho2D(0, window_width,0, window_height);
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+    glLoadIdentity();
+
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_LIGHTING);
+
+    // Render 2D elements here
+    stringstream ss1,ss2,ss3;
+
+    // Game Information
+    ss1 << "Your Score : " << my_player->get_score() << " , Other player score : " << other_player->get_score();
+    ss2 << "Health : " << my_player->get_health();
+
+
+    glPushMatrix();
+    glColor3d(0,0,0);
+    print( 9, window_height - 15, (char *)ss1.str().c_str() );
+    print( window_width - ss2.str().size()*9 - 9, window_height - 15, (char *)ss2.str().c_str() );
+    glPopMatrix();
+
+
+    glBegin(GL_LINES);
+    glColor3d(0,0,0);
+    glVertex2d(window_width/2.0, window_height/2.0 - 10);
+    glVertex2d(window_width/2.0, window_height/2.0 + 10);
+    glEnd();
+
+
+    glBegin(GL_LINES);
+    glColor3d(0,0,0);
+    glVertex2d(window_width/2.0 - 10, window_height/2.0);
+    glVertex2d(window_width/2.0 + 10, window_height/2.0);
+    glEnd();
+
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_LIGHTING);
+
+    glPopMatrix();
+    glMatrixMode(GL_PROJECTION);
+    glPopMatrix();
+    glMatrixMode(GL_MODELVIEW);
+}
 
 void display() {
     
@@ -64,6 +127,8 @@ void display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     map.draw();
+
+    renderOverlay();
     glFlush();
 
 }
@@ -144,11 +209,15 @@ void play_sound(string path){
     system(x.c_str());
 }
 
+void shoot(){
+    string x = "./assets/rifle_sound.mp3";
+    play_sound(x);
+    is_shooting = true;
+}
+
 void mouse_clicks(int button, int state, int x,int y){
     if( button == GLUT_LEFT_BUTTON && state == GLUT_DOWN ){
-      string x = "./assets/rifle_sound.mp3";
-      play_sound(x);
-      is_shooting = true;
+        shoot();
     }
 }
 

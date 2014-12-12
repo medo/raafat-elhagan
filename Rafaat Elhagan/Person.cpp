@@ -49,6 +49,23 @@ double Person::get_vertical_angle(){
     return this->vertical_angle;
 }
 
+int Person::get_health(){
+  return health;
+}
+
+int Person::get_score(){
+  return score;
+}
+
+bool Person::is_dead(){
+  return health <= 0;
+}
+
+void Person::hit(int val){
+  health -= val;
+  health = max(health,0);
+}
+
 Point Person::set_position(Point pos) {
     this->pos = pos;
     return this->pos;

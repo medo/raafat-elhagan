@@ -19,6 +19,7 @@ private:
     
     double horizontal_angle, vertical_angle, look_depth, motion_speed, height, width, length, velocity;
     Point pos;
+    int score=0,health=100;
     Map *map;
     
 public:
@@ -44,6 +45,10 @@ public:
     bool move_up();
     bool intersects(Point p);
     void draw();
+    int get_score();
+    int get_health();
+    bool is_dead();
+    void hit(int val);
     
 };
 
