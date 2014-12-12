@@ -10,6 +10,16 @@
 #include "Wall.h"
 #include "Point.h"
 #include <iostream>
+#ifdef __APPLE__
+#include <GLUT/GLUT.h>
+#endif
+
+#ifdef __linux__
+#include <GL/glut.h>
+#endif
+#include "TextureBuilder.h"
+#include <stdlib.h>
+#include <iostream>
 
 
 Map::Map(int width, int length) {
@@ -21,6 +31,23 @@ Map::Map(int width, int length) {
 void Map::draw() {
     
     
+    glPushMatrix();
+    glColor3f(1.0f,1.0f,1.0f);
+    glRotated(-90,1,0,0);
+    static GLuint eboxTexture = LoadTexture("sky_.ppm", 1200, 812, false);
+    GLUquadricObj* esphere = gluNewQuadric();
+    gluQuadricOrientation(esphere, GLU_INSIDE);
+    gluQuadricTexture(esphere, true);
+    gluQuadricNormals(esphere, GLU_SMOOTH);
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, eboxTexture);
+    glEnable(GL_CULL_FACE);
+    gluSphere(esphere, 400, 100, 100); //universe sphere
+    gluDeleteQuadric(esphere);
+    glPopMatrix();
+    
+    
+
     for (int i = 0; i < this->obstacles.size(); i++) {
         this->obstacles[i]->draw();
     }
@@ -44,7 +71,6 @@ void Map::add_obstacle(Obstacle *obstacle) {
 void Map::init_map() {
     
     //room
-    
     Point center = Point(0, -0.5, 0);
     Wall *floor = new Wall(width, 1, length, center);
     Point p1(0, 2, 40);
