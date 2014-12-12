@@ -5,7 +5,7 @@
 //  Created by Mohamed Farghal on 12/7/14.
 //  Copyright (c) 2014 GUC. All rights reserved.
 //
-
+#define GL_GLEXT_PROTOTYPES
 
 #ifdef __APPLE__
 #include <GLUT/GLUT.h>
@@ -16,6 +16,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include "Wall.h"
+#include "util/objloader.h"
 
 #include "Point.h"
 #include <math.h>
@@ -28,6 +29,7 @@
 #include <string>
 #include <cstring>
 #include <sstream>
+#include <vector>
 
 using namespace std;
 
@@ -455,7 +457,6 @@ int main(int argc, char ** argv) {
   
     thread _repoter(reporter);
     thread _receiver(receiver);
-
     map.load_texture();
     glutMainLoop(); // go into a perpetual loop
     
