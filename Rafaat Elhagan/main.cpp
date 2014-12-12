@@ -83,51 +83,50 @@ void move() {
     }
 }
 
-void keyboard(unsigned char key, int x, int y) {
-   
+void keyboard_down(unsigned char key, int x, int y) {
+
+    switch(key){
+
+      case 'w':
+        move_forward = false;
+        break;
+
+      case 's':
+        move_back = false;
+        break;
+
+      case 'd':
+        move_right = false;
+        break;
+
+      case 'a':
+        move_left = false;
+        break;
+    }
+}
+
+void keyboard_up(unsigned char key, int x, int y) {
+
     if (key == ' ') {
         my_player->move_up();
     }
-}
-
-void keyboard_up(int key, int x, int y) {
     
     switch (key) {
-        case GLUT_KEY_UP:
-            move_forward = false;
-            break;
-        case GLUT_KEY_DOWN:
-            move_back = false;
-            break;
-        case GLUT_KEY_RIGHT:
-            move_right = false;
-            break;
-        case GLUT_KEY_LEFT:
-            move_left = false;
-            break;
-        default:
-            break;
-    }
+      case 'w':
+        move_forward = true;
+        break;
 
-}
+      case 's':
+        move_back = true;
+        break;
 
-void special_keyboard(int key, int x, int y) {
-    
-    switch (key) {
-        case GLUT_KEY_UP:
-            move_forward = true;
-            break;
-        case GLUT_KEY_DOWN:
-            move_back = true;
-            break;
-        case GLUT_KEY_RIGHT:
-            move_right = true;
-            break;
-        case GLUT_KEY_LEFT:
-            move_left = true;
-            break;
-        default:
-            break;
+      case 'd':
+        move_right = true;
+        break;
+
+      case 'a':
+        move_left = true;
+        break;
     }
 }
 
@@ -222,11 +221,9 @@ int main(int argc, char ** argv) {
     glutInitWindowPosition(300, 150); // set window position on
     //screen
     glutCreateWindow("Raafat Elhagan"); // open the screen window
-    glutFullScreen();
-    glutDisplayFunc(display); // register redraw
-    glutKeyboardFunc(keyboard);
-    glutSpecialFunc(special_keyboard);
-    glutSpecialUpFunc(keyboard_up);
+    glutFullScreen(); glutDisplayFunc(display); // register redraw glutKeyboardFunc(keyboard_up);
+    glutKeyboardFunc(keyboard_up);
+    glutKeyboardUpFunc(keyboard_down);
     glutIdleFunc(loop);
     glutPassiveMotionFunc(mouse_motion);
     glutWarpPointer(window_width/2.0,window_height/2.0);
