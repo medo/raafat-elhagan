@@ -109,11 +109,25 @@ double Person::get_height() {
 void Person::draw() {
     
     glPushMatrix();
-
     glScaled(width, height, length);
     glTranslated(pos.x / width , pos.y / height, pos.z / length);
     glRotated(horizontal_angle, 0, 1, 0);
+    glColor3d(1, 1, 0);
     glutSolidCube(1);
+    glPopMatrix();
+    
+    glPushMatrix();
+    GLUquadricObj *obj = gluNewQuadric();
+    glTranslated(pos.x, pos.y, pos.z);
+    glRotated(horizontal_angle, 0, 1, 0);
+    glTranslated(0, 0.25, 0.501);
+//    glScaled(0, 0.5, 0);
+    glColor3d(0, 0, 0);
+    glTranslated(-0.25, 0, 0);
+    gluDisk(obj, 0.05, 0.25, 50, 50);
+    glTranslated(0.5, 0, 0);
+    gluDisk(obj, 0.05, 0.25, 50, 50);
+    gluDeleteQuadric(obj);
     glPopMatrix();
 }
 
