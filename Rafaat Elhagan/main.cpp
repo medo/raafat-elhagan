@@ -38,7 +38,7 @@ double prev_v_angle = 0, prev_h_angle=0;
 
 
 int screen_width, screen_height;
-bool jump, move_right, move_left, move_forward, move_back;
+bool jump, move_right, move_left, move_forward, move_back, is_shooting;
 Map map(100, 100);
 Person *my_player, *other_player;
 
@@ -145,6 +145,7 @@ void mouse_clicks(int button, int state, int x,int y){
     if( button == GLUT_LEFT_BUTTON && state == GLUT_DOWN ){
       string x = "./assets/rifle_sound.mp3";
       play_sound(x);
+      is_shooting = true;
     }
 }
 
@@ -207,7 +208,12 @@ void reporter(){
     Point p = my_player->get_position();
     double horizontal_angle = my_player->get_horizontal_angle();
     double vertical_angle = my_player->get_vertical_angle();
+    cout << "p" << endl;
     cout << p.x << " " << p.y << " " << p.z << " " << horizontal_angle << " " << vertical_angle << endl;
+    if( is_shooting ){
+      cout << "s" << endl;
+      is_shooting = false;
+    }
 
     int milliseconds = 10;
     usleep(milliseconds * 1000);
@@ -217,11 +223,19 @@ void reporter(){
 void receiver(){
   while(1){
     double x,y,z,h_angle,v_angle;
-    cin >> x >> y >> z >> h_angle >> v_angle;
-    cerr << "Got : " << x << " " << y << " "<< z << " " << h_angle << " " << v_angle << endl;
-    other_player->set_position(Point(x,y,z));
-    other_player->set_vertical_angle(v_angle);
-    other_player->set_horizontal_angle(h_angle);
+    string type;
+    cin >> type;
+    if( type == "s" ){
+      cerr << "Got : s" << endl;
+      string x = "./assets/rifle_sound.mp3";
+      play_sound(x);
+    }else{
+      cin >> x >> y >> z >> h_angle >> v_angle;
+      cerr << "Got : " << x << " " << y << " "<< z << " " << h_angle << " " << v_angle << endl;
+      other_player->set_position(Point(x,y,z));
+      other_player->set_vertical_angle(v_angle);
+      other_player->set_horizontal_angle(h_angle);
+    }
   }
 }
 
