@@ -40,17 +40,18 @@ void Map::draw() {
     
     
     glPushMatrix();
+    glEnable(GL_TEXTURE_2D);
     glColor3f(1.0f,1.0f,1.0f);
     glRotated(-90,1,0,0);
     GLUquadricObj* esphere = gluNewQuadric();
     gluQuadricOrientation(esphere, GLU_INSIDE);
     gluQuadricTexture(esphere, true);
     gluQuadricNormals(esphere, GLU_SMOOTH);
-    glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, eboxTexture);
     glEnable(GL_CULL_FACE);
     gluSphere(esphere, 400, 100, 100); //universe sphere
     gluDeleteQuadric(esphere);
+    glDisable(GL_TEXTURE_2D);
     glPopMatrix();
     
     
