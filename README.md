@@ -20,7 +20,6 @@ make
 #### For Mac
 ```
 make mac
-./main.bin
 ./run.sh OPPONENT_IP -s|-c
 ```
 One of the players should run it with ```-s``` flag and the other with ```-c``` flag.
