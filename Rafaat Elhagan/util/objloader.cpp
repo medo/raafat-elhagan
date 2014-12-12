@@ -5,7 +5,12 @@
 
 #include "objloader.h"
 #include "../Point.h"
+
+#ifdef __APPLE__
+#include <GLUT/GLUT.h>
+#elif defined __linux__
 #include <GL/glut.h>
+#endif
 
 // Very, VERY simple OBJ loader.
 // Here is a short list of features a real function would provide : 
@@ -125,7 +130,7 @@ void objloader::draw(std::vector<Point> & v){
 }
 
 
-GLuint loadBMP_custom(const char * imagepath){
+GLuint objloader::loadBMP_custom(const char * imagepath){
 
         printf("Reading image %s\n", imagepath);
 
