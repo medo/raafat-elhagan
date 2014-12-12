@@ -254,7 +254,7 @@ int main(int argc, char ** argv) {
     glEnable(GL_NORMALIZE);
     glClearColor(1.0, 1.0, 1.0, 0.0);
     my_player = new Person(Point(0, 10, 0), 10, 0.1, 2, &map);
-    other_player = new Person(Point(0, 10, 0), 10, 0.1, 2, &map);
+    other_player = new Person(Point(0, 10, -10), 10, 0.1, 2, &map);
     map.add_obstacle(other_player);
 //    max_jump = 2.0;
     mouse_sensitivity = 10;
