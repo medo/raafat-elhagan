@@ -23,10 +23,17 @@
 #include "Util.h"
 #include <cmath>
 
+
+GLuint Map::eboxTexture;
+
 Map::Map(int width, int length) {
     this->width = width;
     this->length = length;
     init_map();
+}
+
+void Map::load_texture() {
+    Map::eboxTexture = LoadTexture("sky_.ppm", 1200, 812, false);
 }
 
 void Map::draw() {
@@ -35,7 +42,6 @@ void Map::draw() {
     glPushMatrix();
     glColor3f(1.0f,1.0f,1.0f);
     glRotated(-90,1,0,0);
-    static GLuint eboxTexture = LoadTexture("sky_.ppm", 1200, 812, false);
     GLUquadricObj* esphere = gluNewQuadric();
     gluQuadricOrientation(esphere, GLU_INSIDE);
     gluQuadricTexture(esphere, true);

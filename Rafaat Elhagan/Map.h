@@ -9,6 +9,13 @@
 #include <vector>
 #include "Obstacle.h"
 #include "Wall.h"
+#ifdef __APPLE__
+#include <GLUT/GLUT.h>
+#endif
+
+#ifdef __linux__
+#include <GL/glut.h>
+#endif
 using namespace std;
 #ifndef Rafaat_Elhagan_Map_h
 #define Rafaat_Elhagan_Map_h
@@ -23,7 +30,7 @@ private:
     void init_map();
     
 public:
-    
+    static GLuint eboxTexture;
     int get_length();
     int get_width();
     void draw();
@@ -33,6 +40,7 @@ public:
     void add_obstacle(Obstacle *obstacle);
     int shoot(Point pos, double h_angle, double v_angle);
     Map(int length, int width);
+    void load_texture();
     
 };
 

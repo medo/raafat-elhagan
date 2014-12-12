@@ -395,6 +395,7 @@ int main(int argc, char ** argv) {
     thread _repoter(reporter);
     thread _receiver(receiver);
 
+    map.load_texture();
     glutMainLoop(); // go into a perpetual loop
     
 }
