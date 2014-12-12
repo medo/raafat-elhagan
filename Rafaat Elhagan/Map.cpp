@@ -96,7 +96,7 @@ int Map::shoot(Point pos, double h_angle, double v_angle){
     pos.x = pos.x + 1 * sin(horizontal_radians);
     pos.y = pos.y + 1 * sin(vertical_radians);
     
-    while(pos.x > -width/2.0 && pos.x < width/2.0 && pos.z > -length/2.0 && pos.z < length/2.0 && pos.y >= 0 && pos.y < 1000){
+    while(pos.x > -width && pos.x < width && pos.z > -length && pos.z < length && pos.y > -1000 && pos.y < 1000){
         for (int i = 0; i < this->obstacles.size(); i++) {
             if(this->obstacles[i]->intersects(pos)){
                 if(this->obstacles[i]->get_type() == 0){

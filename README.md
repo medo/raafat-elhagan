@@ -13,7 +13,7 @@ sudo apt-get install mpg321
 #### For Linux
 ```
 make
-./main.bin
+./run.sh OPPONENT_IP -s|-c
 
 ```
 
@@ -21,4 +21,6 @@ make
 ```
 make mac
 ./main.bin
+./run.sh OPPONENT_IP -s|-c
 ```
+One of the players should run it with ```-s``` flag and the other with ```-c``` flag.
