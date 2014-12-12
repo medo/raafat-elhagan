@@ -17,12 +17,17 @@
 #include <GL/glut.h>
 #endif
 
+#include "TextureLoader.h"
+
+static GLuint image = LoadTexture("Earth.ppm", 100, 50, false);
+
 Wall::Wall(double width, double length, double height, Point position) {
     
     this -> position = position;
     this -> width = width;
     this -> length = length;
     this -> height = height;
+    
 }
 
 void Wall::set_height(double h) {
@@ -67,51 +72,70 @@ bool Wall::intersects(Point p) {
 }
 
 void Wall::draw() {
+    
+    
+    
+    
+    
+    float no_mat[] = {0.0f, 0.0f, 0.0f, 1.0f};
+    float mat_ambient[] = {0.7f, 0.7f, 0.7f, 1.0f};
+    float mat_ambient_color[] = {0.8f, 0.8f, 0.2f, 1.0f};
+    float mat_diffuse[] = {0.1f, 0.5f, 0.8f, 1.0f};
+    float mat_specular[] = {1.0f, 1.0f, 1.0f, 1.0f};
+    float no_shininess = 0.0f;
+    float low_shininess = 5.0f;
+    float high_shininess = 100.0f;
+    float mat_emission[] = {0.3f, 0.2f, 0.2f, 0.0f};
+    
+    /* draw sphere in first row, first column
+     * diffuse reflection only; no ambient or specular
+     */
+    
     glPushMatrix();
+//    glColor3d(1, 0, 1);
+//    glMaterialfv(GL_FRONT, GL_AMBIENT, no_mat);
+//    glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+//    glMaterialfv(GL_FRONT, GL_SPECULAR, no_mat);
+//    glMaterialf(GL_FRONT, GL_SHININESS, no_shininess);
+//    glMaterialfv(GL_FRONT, GL_EMISSION, mat_emission);
+    
+    
+    
     glScaled(width, height, length);
     glTranslated(position.x / width, position.y / height, position.z / length);
-    glutSolidCube(1);
+    
+    
+    glRotated(45, 0, 0, 1);
+    GLUquadricObj *obj = gluNewQuadric();
+    
+//    gluQuadricOrientation(obj, GLU_INSIDE);
+    gluQuadricTexture(obj, true);
+//    gluQuadricNormals(obj, GLU_SMOOTH);
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, image);
+    glEnable(GL_CULL_FACE);
+    
+    
+    gluCylinder(obj, 1, 1, 1, 4, 4);
+    gluDisk(obj, 0, 1, 4, 10);
+    glTranslated(0, 0, 1);
+    gluDisk(obj, 0, 1, 4, 10);
+    
+    
+    
     glPopMatrix();
+
+    
+    
+    
+    
+//    glPushMatrix();
+//
+//    glTranslated(position.x / width, position.y / height, position.z / length);
+//    GLUquadricObj *obj = gluNewQuadric();
+//    gluCylinder(obj, 0, 1, 1, 2, 2);
+//    //    glutSolidCube(1);
+//    glPopMatrix();
 }
 
-GLuint Wall::loadBMP_custom(const char *imagepath) {
-    FILE * file = fopen(imagepath,"rb");
-    if (!file)                              {printf("Image could not be opened\n"); return 0;}
-    if ( fread(header, 1, 54, file)!=54 ){ // If not 54 bytes read : problem
-        printf("Not a correct BMP file\n");
-        return false;
-    }
-    if ( header[0]!='B' || header[1]!='M' ){
-        printf("Not a correct BMP file\n");
-        return 0;
-    }
-    // Read ints from the byte array
-    dataPos    = *(int*)&(header[0x0A]);
-    imageSize  = *(int*)&(header[0x22]);
-    width      = *(int*)&(header[0x12]);
-    height     = *(int*)&(header[0x16]);
-    if (imageSize==0)    imageSize=width*height*3; // 3 : one byte for each Red, Green and Blue component
-    if (dataPos==0)      dataPos=54;
-    // Create a buffer
-    data = new unsigned char [imageSize];
-    
-    // Read the actual data from the file into the buffer
-    fread(data,1,imageSize,file);
-    
-    //Everything is in memory now, the file can be closed
-    fclose(file);
-    GLuint textureID;
-    glGenTextures(1, &textureID);
-    
-    // "Bind" the newly created texture : all future texture functions will modify this texture
-    glBindTexture(GL_TEXTURE_2D, textureID);
-    
-    // Give the image to OpenGL
-    glTexImage2D(GL_TEXTURE_2D, 0,GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
-    
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    return 0;
-
-}
 

@@ -122,11 +122,12 @@ void display() {
     Point position = my_player->get_position();
     
     gluLookAt(position.x, position.y, position.z, looking_at.x, looking_at.y, looking_at.z, 0, 1, 0);
-    GLfloat lightIntensity[] = {0, 1,};
-    GLfloat light_position[] = { 0, 0.3f, 0.0f, 1.0f };
+    GLfloat lightIntensity[] = {0, 1, 1};
+    GLfloat light_position[] = { 0, 0.3f, 0.0f, -1.0f };
     //    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
     glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, lightIntensity);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
     
     map.draw();
 

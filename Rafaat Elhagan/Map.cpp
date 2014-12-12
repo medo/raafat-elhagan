@@ -17,14 +17,14 @@
 #ifdef __linux__
 #include <GL/glut.h>
 #endif
-#include "TextureBuilder.h"
+//#include "TextureBuilder.h"
 #include <stdlib.h>
 #include <iostream>
 #include "Util.h"
 #include <cmath>
 
 
-GLuint Map::eboxTexture;
+
 
 Map::Map(int width, int length) {
     this->width = width;
@@ -33,24 +33,24 @@ Map::Map(int width, int length) {
 }
 
 void Map::load_texture() {
-    Map::eboxTexture = LoadTexture("sky_.ppm", 1200, 812, false);
+//    Map::eboxTexture = LoadTexture("sky_.ppm", 1200, 812, false);
 }
 
 void Map::draw() {
     
     
     glPushMatrix();
-    glColor3f(1.0f,1.0f,1.0f);
+//    glColor3f(1.0f,1.0f,1.0f);
     glRotated(-90,1,0,0);
     GLUquadricObj* esphere = gluNewQuadric();
-    gluQuadricOrientation(esphere, GLU_INSIDE);
-    gluQuadricTexture(esphere, true);
+//    gluQuadricOrientation(esphere, GLU_INSIDE);
+//    gluQuadricTexture(esphere, true);
     gluQuadricNormals(esphere, GLU_SMOOTH);
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, eboxTexture);
-    glEnable(GL_CULL_FACE);
-    gluSphere(esphere, 400, 100, 100); //universe sphere
-    gluDeleteQuadric(esphere);
+//    glEnable(GL_TEXTURE_2D);
+//    glBindTexture(GL_TEXTURE_2D, eboxTexture);
+//    glEnable(GL_CULL_FACE);
+//    gluSphere(esphere, 400, 100, 100); //universe sphere
+//    gluDeleteQuadric(esphere);
     glPopMatrix();
     
     
@@ -119,20 +119,20 @@ void Map::init_map() {
     
     //room
     Point center = Point(0, -0.5, 0);
-    Wall *floor = new Wall(width, length, 1, center);
+//    Wall *floor = new Wall(width, length, 1, center);
     Point p1(0, 2, 40);
     Point p2(14.5, 2, 25);
     Point p3(-14.5, 2, 25);
     Point p4(0, 0.5, 15);
     Wall *w1 = new Wall(30, 1, 4, p1);
-    Wall *w2 = new Wall(1, 30, 4, p2);
-    Wall *w3 = new Wall(1, 30, 4, p3);
-    Wall *step = new Wall(20, 20, 1, p4);
-    this->obstacles.push_back(floor);
-    this->obstacles.push_back(w1);
-    this->obstacles.push_back(w2);
-    this->obstacles.push_back(w3);
-    this->obstacles.push_back(step);
+//    Wall *w2 = new Wall(1, 30, 4, p2);
+//    Wall *w3 = new Wall(1, 30, 4, p3);
+//    Wall *step = new Wall(20, 20, 1, p4);
+//    this->obstacles.push_back(floor);
+//    this->obstacles.push_back(w1);
+//    this->obstacles.push_back(w2);
+//    this->obstacles.push_back(w3);
+//    this->obstacles.push_back(step);
     
 }
 
