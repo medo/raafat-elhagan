@@ -5,7 +5,7 @@
 //  Created by Mohamed Farghal on 12/7/14.
 //  Copyright (c) 2014 GUC. All rights reserved.
 //
-
+#define GL_GLEXT_PROTOTYPES
 
 #ifdef __APPLE__
 #include <GLUT/GLUT.h>
@@ -16,6 +16,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include "Wall.h"
+#include "util/objloader.h"
 
 #include "Point.h"
 #include <math.h>
@@ -28,6 +29,7 @@
 #include <string>
 #include <cstring>
 #include <sstream>
+#include <vector>
 
 using namespace std;
 
@@ -40,6 +42,7 @@ double prev_v_angle = 0, prev_h_angle=0;
 
 int screen_width, screen_height;
 bool jump, move_right, move_left, move_forward, move_back, is_shooting, is_hit, is_reset;
+int vibrate_camera = 0;
 Map map(100, 100);
 Person *my_player, *other_player;
 
@@ -74,13 +77,22 @@ void render_overlay()
 
     // Game Information
     ss1 << "Your Score : " << my_player->get_score() << " , Other player score : " << other_player->get_score();
-    ss2 << "Health : " << my_player->get_health() << " , " << other_player->get_health();
+    ss2 << "Health : " << my_player->get_health();
+    ss3 << "Opponent Health : " << other_player->get_health();
 
 
     glPushMatrix();
     glColor3d(0,0,0);
     print( 9, window_height - 15, (char *)ss1.str().c_str() );
+    if( my_player->get_health() < 50 ){
+        glColor3d(1,0,0);
+    }
     print( window_width - ss2.str().size()*9 - 9, window_height - 15, (char *)ss2.str().c_str() );
+    glColor3d(0,0,0);
+    if( other_player->get_health() < 50 ){
+        glColor3d(1,0,0);
+    }
+    print( window_width - ss3.str().size()*9 - 9, window_height - 35, (char *)ss3.str().c_str() );
     glPopMatrix();
 
 
@@ -121,9 +133,15 @@ void display() {
     Point looking_at = my_player->get_look_at();
     Point position = my_player->get_position();
     
-    gluLookAt(position.x, position.y, position.z, looking_at.x, looking_at.y, looking_at.z, 0, 1, 0);
+    if( vibrate_camera ){
+      gluLookAt(position.x + rand()%100/1000.0, position.y + rand()%100/1000.0, position.z + rand()%100/1000.0, looking_at.x, looking_at.y, looking_at.z, 0, 1, 0);
+      vibrate_camera --;
+    }else{
+
+      gluLookAt(position.x , position.y, position.z, looking_at.x, looking_at.y, looking_at.z, 0, 1, 0);
+    }
     GLfloat lightIntensity[] = {0, 1, 1};
-    GLfloat light_position[] = { 0, 0.3f, 0.0f, -1.0f };
+    GLfloat light_position[] = { 0, 0.3f, 0.0f, 1.0f };
     //    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
     glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, lightIntensity);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -373,6 +391,8 @@ void receiver(){
       int h;
       cin >> h;
       my_player->set_health(h);
+      play_sound("./assets/pain.mp3");
+      vibrate_camera = 10;
     }else if( type == "r" ){
       my_player->set_health(100);
       my_player->set_position(Point(0,10,-10));
@@ -438,7 +458,6 @@ int main(int argc, char ** argv) {
   
     thread _repoter(reporter);
     thread _receiver(receiver);
-
     map.load_texture();
     glutMainLoop(); // go into a perpetual loop
     
