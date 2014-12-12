@@ -134,7 +134,7 @@ void display() {
     Point position = my_player->get_position();
     
     if( vibrate_camera ){
-      gluLookAt(position.x + rand()%100/1000.0, position.y + rand()%100/1000.0, position.z + rand()%100/1000.0, looking_at.x, looking_at.y, looking_at.z, 0, 1, 0);
+      gluLookAt(position.x + rand()%100/500.0, position.y + rand()%100/500.0, position.z + rand()%100/500.0, looking_at.x, looking_at.y, looking_at.z, 0, 1, 0);
       vibrate_camera --;
     }else{
 
@@ -391,7 +391,7 @@ void receiver(){
       cin >> h;
       my_player->set_health(h);
       play_sound("./assets/pain.mp3");
-      vibrate_camera = 10;
+      vibrate_camera = 30;
     }else if( type == "r" ){
       my_player->set_health(100);
       my_player->set_position(Point(0,10,-10));
