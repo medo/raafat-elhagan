@@ -46,9 +46,10 @@ int vibrate_camera = 0;
 Map map(100, 100);
 Person *my_player, *other_player;
 
+Point starting_positions[] = { Point(-10,10,0), Point(10,10,0) };
+int player_id;
+
 void reset_game();
-
-
 
 void print(double x, double y, char *string){
   int len, i;
@@ -409,13 +410,13 @@ void receiver(){
 }
 
 void reset_game(){
-    my_player->set_position(Point(0,10,0));
+    my_player->set_position(starting_positions[player_id]);
     my_player->set_health(100);
-    other_player->set_position(Point(0,10,-10));
+    other_player->set_position(starting_positions[player_id^1]);
     other_player->set_health(100);
 }
 
-int main(int argc, char ** argv) {
+int main(int argc, char * argv[]) {
     
     glutInit(&argc, argv); // initialize the toolkit
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH); // set
@@ -445,8 +446,14 @@ int main(int argc, char ** argv) {
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_NORMALIZE);
     glClearColor(1.0, 1.0, 1.0, 0.0);
-    my_player = new Person(Point(0, 10, 0), 10, 0.1, 2, &map);
-    other_player = new Person(Point(0,10,-10),10,0.1,2, &map);
+    string player_type = argv[1];
+    if( player_type == "1" ){
+      player_id = 0;
+    }else{
+      player_id = 1;
+    }
+    my_player = new Person(starting_positions[player_id], 10, 0.1, 2, &map);
+    other_player = new Person(starting_positions[player_id^1],10,0.1,2, &map);
     map.add_obstacle(other_player);
 //    max_jump = 2.0;
     mouse_sensitivity = 10;
