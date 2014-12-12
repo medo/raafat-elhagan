@@ -26,6 +26,7 @@
 #include "Person.h"
 #include <thread>
 #include <unistd.h>
+#include <string>
 
 using namespace std;
 
@@ -130,6 +131,23 @@ void keyboard_up(unsigned char key, int x, int y) {
     }
 }
 
+
+void play_sound(string path){
+#ifdef __APPLE__
+    string x = "afplay " + path + " > /dev/null 2>&1 &";
+#elif defined __linux__
+    string x = "mpg321 " + path + " > /dev/null 2>&1 &";
+#endif
+    system(x.c_str());
+}
+
+void mouse_clicks(int button, int state, int x,int y){
+    if( button == GLUT_LEFT_BUTTON && state == GLUT_DOWN ){
+      string x = "./assets/rifle_sound.mp3";
+      play_sound(x);
+    }
+}
+
 void mouse_motion(int x, int y) {
     double prev_vertical = my_player->get_vertical_angle();
     double prev_horizontal = my_player->get_horizontal_angle();
@@ -224,6 +242,7 @@ int main(int argc, char ** argv) {
     glutFullScreen(); glutDisplayFunc(display); // register redraw glutKeyboardFunc(keyboard_up);
     glutKeyboardFunc(keyboard_up);
     glutKeyboardUpFunc(keyboard_down);
+    glutMouseFunc(mouse_clicks);
     glutIdleFunc(loop);
     glutPassiveMotionFunc(mouse_motion);
     glutWarpPointer(window_width/2.0,window_height/2.0);
