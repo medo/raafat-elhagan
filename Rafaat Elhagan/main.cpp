@@ -39,9 +39,11 @@ double prev_v_angle = 0, prev_h_angle=0;
 
 
 int screen_width, screen_height;
-bool jump, move_right, move_left, move_forward, move_back, is_shooting, is_hit;
+bool jump, move_right, move_left, move_forward, move_back, is_shooting, is_hit, is_reset;
 Map map(100, 100);
 Person *my_player, *other_player;
+
+void reset_game();
 
 
 
@@ -196,6 +198,7 @@ void keyboard_up(unsigned char key, int x, int y) {
       case 'a':
         move_left = true;
         break;
+
     }
 }
 
@@ -216,7 +219,13 @@ void shoot(){
     cerr << hit << endl;
     if( hit == 1 ){
       other_player->hit(30);
-      is_hit = true;
+      if( other_player->is_dead() ){
+        reset_game();
+        is_reset = true;
+        my_player->inc_score();
+      }else{
+        is_hit = true;
+      }
     }
     is_shooting = true;
 }
@@ -299,6 +308,11 @@ void reporter(){
       is_hit= false;
     }
 
+    if(is_reset){
+      cout << "r" << endl;
+      is_reset= false;
+    }
+
     int milliseconds = 10;
     usleep(milliseconds * 1000);
   }
@@ -317,7 +331,13 @@ void receiver(){
       int h;
       cin >> h;
       my_player->set_health(h);
+    }else if( type == "r" ){
+      my_player->set_health(100);
+      my_player->set_position(Point(0,10,-10));
+      other_player->set_health(100);
+      other_player->inc_score();
     }else{
+ 
       cin >> x >> y >> z >> h_angle >> v_angle;
       cerr << "Got : " << x << " " << y << " "<< z << " " << h_angle << " " << v_angle << endl;
       other_player->set_position(Point(x,y,z));
@@ -325,6 +345,13 @@ void receiver(){
       other_player->set_horizontal_angle(h_angle);
     }
   }
+}
+
+void reset_game(){
+    my_player->set_position(Point(0,10,0));
+    my_player->set_health(100);
+    other_player->set_position(Point(0,10,-10));
+    other_player->set_health(100);
 }
 
 int main(int argc, char ** argv) {
@@ -356,7 +383,7 @@ int main(int argc, char ** argv) {
     glEnable(GL_NORMALIZE);
     glClearColor(1.0, 1.0, 1.0, 0.0);
     my_player = new Person(Point(0, 10, 0), 10, 0.1, 2, &map);
-    other_player = new Person(Point(0, 10, -10), 10, 0.1, 2, &map);
+    other_player = new Person(Point(0,10,-10),10,0.1,2, &map);
     map.add_obstacle(other_player);
 //    max_jump = 2.0;
     mouse_sensitivity = 10;

@@ -52,6 +52,7 @@ public:
     bool is_dead();
     void hit(int val);
     int get_type();
+    void inc_score();
     
 };
 

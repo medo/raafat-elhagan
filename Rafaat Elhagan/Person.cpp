@@ -197,5 +197,9 @@ void Person::set_health(int value){
     health = value;
 }
 
+void Person::inc_score(){
+    score++;
+}
+
 
 
