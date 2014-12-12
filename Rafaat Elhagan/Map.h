@@ -28,6 +28,7 @@ public:
     int get_width();
     void draw();
     bool intersects(Point p);
+    double get_height(Point p);
     vector<Obstacle *> get_obstacles();
     void add_obstacle(Obstacle *obstacle);
     Map(int length, int width);

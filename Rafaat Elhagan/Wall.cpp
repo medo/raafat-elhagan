@@ -42,29 +42,29 @@ void Wall::set_position(Point p) {
 
 double Wall::get_height() {
     
-    return 0;
+    return height/2.0 + this->position.y;
 }
 
 double Wall::get_width() {
     
-    return 0;
+    return width;
 }
 
 double Wall::get_length() {
 
-    return 0;
+    return length;
 }
 
 bool Wall::intersects(Point p) {
     
-    return p.x >= position.x - width/2 && p.x <= position.x + width/2 && p.y >= position.y - length/2 && p.y <= position.y + length/2 && p.z >= position.z - height/2 && p.z <= position.z + height/2;
+    return p.x >= position.x - width/2 && p.x <= position.x + width/2 && p.y >= position.y - height/2 && p.y <= position.y + height/2 && p.z >= position.z - length/2 && p.z <= position.z + length/2;
     
 }
 
 void Wall::draw() {
     glPushMatrix();
-    glScaled(width, length, height);
-    glTranslated(position.x / width, position.y / length, position.z / height);
+    glScaled(width, height, length);
+    glTranslated(position.x / width, position.y / height, position.z / length);
     glutSolidCube(1);
     glPopMatrix();
 }
