@@ -1,8 +1,8 @@
 #!/bin/bash
 
 if [[ $2 == "-s" ]]; then
-  while true; do nc $1 8011; done | ./main.bin 1 | ncat -l 8012
+  nc -k -l 8012 | ./main.bin 1 | while true; do nc $1 8011; done
 else
-  while true; do nc $1 8012; done | ./main.bin 2 | ncat -l 8011
+  nc -k -l 8011 | ./main.bin 2 | while true; do nc $1 8012; done
 fi
 

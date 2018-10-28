@@ -397,7 +397,7 @@ void receiver(){
       my_player->set_position(Point(0,10,-10));
       other_player->set_health(100);
       other_player->inc_score();
-    }else{
+    }else if(type == "p"){
  
       cin >> x >> y >> z >> h_angle >> v_angle;
       cerr << "Got : " << x << " " << y << " "<< z << " " << h_angle << " " << v_angle << endl;
